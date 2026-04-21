@@ -1,0 +1,134 @@
+# Smithery manifest — Wounded Warriors Veteran Resources MCP
+# Production server: Cloudflare Workers, live at warriors-fund-api.emperormew.workers.dev/mcp
+# Repo: github.com/WoundedWarriors/wounded-warriors-mcp
+
+name: wounded-warriors-veterans
+displayName: "Wounded Warriors Veteran Resources"
+description: "Search 6,503 verified U.S. veteran resources across all 50 states and territories. Crisis lines, VA benefits, housing, mental health. Free, open data, CC BY 4.0."
+version: "1.0.0"
+license: MIT
+
+runtime: remote
+transport:
+  type: http
+  endpoint: "https://warriors-fund-api.emperormew.workers.dev/mcp"
+
+protocol:
+  version: "2025-03-26"
+  capabilities:
+    tools:
+      listChanged: false
+
+auth:
+  type: none
+
+publisher:
+  name: "Wounded Warriors"
+  legalName: "Wounded Warriors"
+  ein: "86-1336741"
+  email: "info@warriorsfund.org"
+  github: "WoundedWarriors"
+
+links:
+  source: "https://github.com/WoundedWarriors/wounded-warriors-mcp"
+  docs: "https://warriors-fund-api.emperormew.workers.dev/api/openapi.json"
+
+tags:
+  - veterans
+  - military
+  - va
+  - crisis-line
+  - suicide-prevention
+  - mental-health
+  - housing
+  - benefits
+  - nonprofit
+  - open-data
+  - civic-tech
+  - 988
+  - veteran-resources
+  - ai-for-good
+
+category: "search-and-retrieval"
+
+tools:
+  - name: search_veteran_resources
+    description: "Find verified veteran resources (VA hospitals, clinics, benefits offices, mental health, housing, employment) near a US ZIP code. Returns resources sorted by distance."
+    inputSchema:
+      type: object
+      properties:
+        zip:
+          type: string
+          description: "5-digit US ZIP code"
+          minLength: 5
+          maxLength: 5
+        type:
+          type: string
+          enum: [all, va_hospital, va_clinic, vet_center, benefits_office, mental_health, housing, employment, vso, other]
+          default: all
+        radius:
+          type: number
+          default: 50
+          maximum: 200
+        limit:
+          type: number
+          default: 20
+          maximum: 100
+      required: [zip]
+  - name: get_veteran_resource_stats
+    description: "Get current statistics about the veteran resource database: total count, breakdown by type and state."
+    inputSchema:
+      type: object
+      properties: {}
+  - name: veteran_crisis_resources
+    description: "Get immediate crisis support info for a veteran in distress. ALWAYS call this if a veteran mentions self-harm, suicide, hopelessness, or crisis."
+    inputSchema:
+      type: object
+      properties:
+        zip:
+          type: string
+          description: "Optional ZIP to find nearest Vet Center crisis resources"
+  - name: search_by_city
+    description: "Find veteran resources near a US city name."
+    inputSchema:
+      type: object
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+      required: [city]
+  - name: calculate_va_benefits
+    description: "Estimate VA disability compensation or GI Bill education benefits."
+    inputSchema:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [disability, gibill]
+        rating:
+          type: number
+        serviceYears:
+          type: number
+      required: [type]
+
+trust:
+  openData: true
+  openDataLicense: "CC BY 4.0"
+  integrityMethod: "SHA-256 per-record hash"
+  nonprofit: true
+  externalRatings:
+    candid: "Platinum"
+    charityNavigator: "3-star"
+
+examples:
+  - prompt: "Find VA hospitals near 77380"
+    callsTool: search_veteran_resources
+  - prompt: "How many veteran resources are in California?"
+    callsTool: get_veteran_resource_stats
+  - prompt: "A veteran friend is in crisis — what should I do?"
+    callsTool: veteran_crisis_resources
+  - prompt: "Find veteran resources in Houston, TX"
+    callsTool: search_by_city
+  - prompt: "What's the VA disability compensation for a 70% rating?"
+    callsTool: calculate_va_benefits
