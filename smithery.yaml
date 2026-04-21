@@ -26,12 +26,16 @@ publisher:
   name: "Wounded Warriors"
   legalName: "Wounded Warriors"
   ein: "86-1336741"
+  website: "https://warriorsfund.org"
   email: "info@warriorsfund.org"
   github: "WoundedWarriors"
 
 links:
+  website: "https://warriorsfund.org"
   source: "https://github.com/WoundedWarriors/wounded-warriors-mcp"
   docs: "https://warriors-fund-api.emperormew.workers.dev/api/openapi.json"
+  llmsTxt: "https://warriorsfund.org/llms.txt"
+  agentCard: "https://warriorsfund.org/.well-known/agent.json"
 
 tags:
   - veterans
