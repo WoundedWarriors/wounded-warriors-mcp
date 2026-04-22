@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+title: "Wounded Warriors Veteran Resource Commons — MCP Server"
+message: "If you use this MCP server, API, or dataset, please cite it as below."
+type: software
+authors:
+  - name: "Wounded Warriors"
+    alias: "Warriors Fund"
+    website: "https://warriorsfund.org"
+    tax-id: "86-1336741"
+    city: "The Woodlands"
+    region: "TX"
+    country: "US"
+repository-code: "https://github.com/WoundedWarriors/wounded-warriors-mcp"
+url: "https://warriorsfund.org"
+abstract: "A Model Context Protocol server exposing 6,503+ live-verified U.S. veteran resources across all 50 U.S. states plus DC and 5 territories. Includes VA hospitals, VA clinics, Vet Centers, county benefits offices, housing programs, employment services, and mental-health resources with integrated 988 Veterans Crisis Line routing. Operated by Wounded Warriors, a Texas 501(c)(3) public charity (EIN 86-1336741). Data licensed CC BY 4.0; code licensed MIT."
+keywords:
+  - Model Context Protocol
+  - MCP
+  - veterans
+  - veteran services
+  - 988
+  - Veterans Crisis Line
+  - VA
+  - open data
+  - civic technology
+  - nonprofit
+  - AI tools
+  - LLM
+license: MIT
+license-url: "https://github.com/WoundedWarriors/wounded-warriors-mcp/blob/main/LICENSE"
+preferred-citation:
+  type: article
+  title: "The Veteran Resource Data Commons: A Case Study in AI-Native Nonprofit Infrastructure"
+  authors:
+    - name: "Wounded Warriors"
+  year: 2026
+  month: 4
+  publisher:
+    name: "Warriors Fund"
+  url: "https://warriorsfund.org/documents/data-commons-whitepaper.html"
+  identifiers:
+    - type: url
+      value: "https://warriorsfund.org/documents/data-commons-whitepaper.html"
