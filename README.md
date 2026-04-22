@@ -1,6 +1,6 @@
 # Wounded Warriors Veteran Resources MCP
 
-Model Context Protocol server exposing **6,503+ verified U.S. veteran resources** to any MCP-compatible AI assistant (Claude Desktop, Cursor, Continue, etc.).
+Model Context Protocol server exposing **11,000+ verified U.S. veteran resources** to any MCP-compatible AI assistant (Claude Desktop, Cursor, Continue, etc.).
 
 Operated by **Wounded Warriors** — a 501(c)(3) public charity (EIN 86-1336741). Free. No API key. Open data under CC BY 4.0.
 
