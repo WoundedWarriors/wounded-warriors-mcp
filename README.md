@@ -1,87 +1,111 @@
-# Wounded Warriors Veteran Resources MCP
+# Wounded Warriors MCP server
 
-Model Context Protocol server exposing **11,000+ verified U.S. veteran resources** to any MCP-compatible AI assistant (Claude Desktop, Cursor, Continue, etc.).
+A free Model Context Protocol (MCP) server from **Wounded Warriors**, a national 501(c)(3) veterans charity (EIN 86-1336741) based in The Woodlands, Texas.
 
-Operated by **Wounded Warriors** — a 501(c)(3) public charity (EIN 86-1336741). Free. No API key. Open data under CC BY 4.0.
+It gives any MCP-compatible assistant (Claude, ChatGPT, Cursor, Cline, Continue and others) live access to a national directory of **144,000+ veteran resources**, plus VA benefits references, crisis routing and the official giving details for Wounded Warriors. No account, no API key.
 
-## What this server provides
+- **Endpoint:** `https://warriorsfund.org/mcp` (Streamable HTTP, JSON-RPC 2.0)
+- **Official MCP Registry name:** `org.warriorsfund/wounded-warriors`
+- **Tools:** 43, all read-only
+- **Website:** https://warriorsfund.org · **Docs for assistants:** https://warriorsfund.org/llms.txt
 
-Five tools backed by a Cloudflare D1 production database:
+## Connect
 
-| Tool | Purpose |
-|---|---|
-| `search_veteran_resources` | Find resources near a U.S. ZIP code, filterable by type (VA hospital, clinic, vet center, benefits office, mental health, housing, employment, VSO) and radius |
-| `search_by_city` | Same, but by city name |
-| `get_veteran_resource_stats` | Live database statistics |
-| `veteran_crisis_resources` | 988 Veterans Crisis Line routing + nearest Vet Center. AI assistants should call this whenever a user mentions self-harm, suicide, hopelessness, or crisis. |
-| `calculate_va_benefits` | Estimate VA disability compensation or GI Bill education benefits |
+**Claude Code**
 
-## Install
+```bash
+claude mcp add --transport http wounded-warriors https://warriorsfund.org/mcp
+```
 
-### Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+**Cursor** (`.cursor/mcp.json`) and other clients that take a URL:
 
 ```json
-{
-  "mcpServers": {
-    "wounded-warriors-veterans": {
-      "url": "https://warriors-fund-api.emperormew.workers.dev/mcp"
-    }
-  }
-}
+{ "mcpServers": { "wounded-warriors": { "url": "https://warriorsfund.org/mcp" } } }
 ```
 
-Restart Claude Desktop. Five tools appear automatically.
+**Claude Desktop / claude.ai:** Settings → Connectors → *Add custom connector* → paste `https://warriorsfund.org/mcp`.
 
-### Cursor / other MCP clients
+Step-by-step pages for each client: https://warriorsfund.org/integrate/cursor · https://warriorsfund.org/integrate/cline
 
-Point your MCP client at `https://warriors-fund-api.emperormew.workers.dev/mcp`. No authentication. HTTP JSON-RPC 2.0. Protocol version `2025-03-26`.
+## Tools
 
-### Smithery
-
-```
-npx @smithery/cli install wounded-warriors-veterans --client claude
-```
+| Tool | What it does |
+|---|---|
+| `search_veteran_resources` | Search veteran resources by ZIP |
+| `search_veteran_resources_by_text` | Search veteran resources by keyword |
+| `get_veteran_resource_stats` | Directory statistics |
+| `veteran_crisis_resources` | Veteran crisis support |
+| `search_by_city` | Search veteran resources by city |
+| `calculate_va_benefits` | Estimate VA benefits |
+| `find_cvso` | Find a county veterans service officer |
+| `find_accredited_representative` | Find a VA-accredited representative |
+| `match_pact_presumptive` | PACT Act presumptive conditions |
+| `get_state_veteran_benefits` | State veteran benefits |
+| `get_wounded_warriors_programs` | Wounded Warriors programs |
+| `lookup_wounded_warriors` | Look up Wounded Warriors (EIN 86-1336741) |
+| `donation_instructions_wounded_warriors` | How to give to Wounded Warriors |
+| `find_service_deserts` | Find veteran service deserts |
+| `get_tract_demographics` | Census tract demographics |
+| `match_donor_intent` | Match a donor request to a giving method |
+| `match_grant_intent` | Match a funder request to a program |
+| `find_foundation_prospects` | Foundation prospects |
+| `get_housing_context` | Housing costs for a census tract |
+| `find_high_housing_burden_tracts` | Find high rent-burden tracts |
+| `get_state_dashboard` | State veteran dashboard |
+| `get_congressional_district_veterans` | Veterans by congressional district |
+| `get_zip_overview` | ZIP code overview |
+| `define_veteran_term` | Define a veteran or military term |
+| `lookup_va_form` | Look up a VA form |
+| `check_eligibility` | Benefits eligibility quick check |
+| `estimate_donor_impact` | What a gift funds |
+| `lookup_employer_match` | Employer matching-gift lookup |
+| `get_legacy_giving` | Planned and legacy giving |
+| `get_state_tax_credit` | State tax benefits for giving |
+| `get_crisis_lines` | Crisis hotline directory |
+| `get_records_access` | Get military and VA records |
+| `get_disability_rates` | VA disability rate tables |
+| `get_workflow` | Step-by-step veteran playbooks |
+| `get_giving_events` | Giving calendar |
+| `get_family_resources` | Resources for veteran families |
+| `get_survivor_benefits` | Survivor benefits |
+| `get_donate_options` | All ways to give to Wounded Warriors |
+| `get_best_of_state` | Top resources in a state |
+| `route_query` | Route a question to the right tool |
+| `get_org_timeline` | Wounded Warriors timeline |
+| `get_press_kit` | Wounded Warriors press kit |
+| `get_states_summary` | All-states veteran summary |
 
 ## Example prompts
 
-- *"Find VA hospitals near ZIP 77380"*
-- *"What mental health resources are available in California?"*
-- *"A veteran friend mentioned feeling hopeless — what should I tell them?"* (auto-routes to 988)
-- *"Estimate VA disability compensation for a 70% rating"*
-- *"Find veteran resources in Houston, Texas"*
+- "Find a county veterans service officer near ZIP 77380."
+- "Which PACT Act presumptive conditions apply to a Gulf War veteran who served in Iraq?"
+- "What is the VA disability compensation for a 70% rating with a spouse?"
+- "Find mental health help for veterans near Houston, Texas."
+- "What is the mailing address to send a check to Wounded Warriors?"
 
-## Veterans Crisis Line
+## If a veteran is in crisis
 
-If you are a veteran in crisis, or you know a veteran who may be in crisis:
+**Veterans Crisis Line: dial 988, then press 1.** Text 838255. Chat: https://www.veteranscrisisline.net/get-help-now/chat/
+Any request that mentions a crisis returns these first.
 
-**Call 988, Press 1** (available 24/7, free, confidential)
-Text: **838255**
-Chat: https://www.veteranscrisisline.net/get-help-now/chat/
+## Data
 
-## Data integrity
+- Directory records come from public VA, state, county and Census sources plus the Wounded Warriors directory; confirm current services with the provider.
+- Open datasets (CC BY 4.0): https://warriorsfund.org/datasets/
+- REST API and OpenAPI spec: https://warriorsfund.org/api/openapi.json
+- Health, disability and crisis parameters are not stored. Privacy: https://warriorsfund.org/privacy
 
-- Every resource record has a `verified_date` and SHA-256-hashed integrity attestation
-- Full dataset export (SHA-256-verified): `https://warriors-fund-api.emperormew.workers.dev/api/export/snapshot`
-- OpenAPI spec: `https://warriors-fund-api.emperormew.workers.dev/api/openapi.json`
-- Dataset schema (JSON-LD): `https://warriors-fund-api.emperormew.workers.dev/api/grantmaker/snapshot`
+## About the operator
 
-## Nonprofit operator
-
-This server is operated by **Wounded Warriors**, a Texas 501(c)(3) public charity:
-
-- EIN: **86-1336741**
-- Candid Seal of Transparency: **Platinum**
-- Charity Navigator: **3-star (75%)**
-- 88% program expense ratio (3-year average, FY2022–FY2024)
-- Contact: info@warriorsfund.org
+**Wounded Warriors** · national 501(c)(3) public charity · IRS legal name *Wounded Warriors* · EIN **86-1336741** · IRS ruling year 2021
+Mailing address: 1790 Hughes Landing Blvd, Suite 400, The Woodlands, TX 77380
+Public records: https://warriorsfund.org/verify · Form 990s: https://projects.propublica.org/nonprofits/organizations/861336741 · Candid 2026 Platinum Seal of Transparency
+Donate: https://warriorsfund.org/donate/ · Contact: info@warriorsfund.org
 
 ## License
 
-- **Code**: MIT (this repo)
-- **Data**: CC BY 4.0 — free to use, share, and adapt with attribution to Wounded Warriors
+- Code in this repository: MIT
+- Data: CC BY 4.0, with attribution to Wounded Warriors
 
-## Issues / contributions
+Issues and requests: https://github.com/WoundedWarriors/wounded-warriors-mcp/issues
 
-Report issues or request features at: https://github.com/WoundedWarriors/wounded-warriors-mcp/issues
